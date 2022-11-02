@@ -50,5 +50,11 @@ func main() {
 		}
 
 		fmt.Printf("The first names of bookings are: %v\n", firstNames)
+
+		// Logic for exiting app
+		if remainingTickets == 0 {
+			fmt.Printf("Our conference is booked out. Come back next year.")
+			break
+		}
 	}
 }
