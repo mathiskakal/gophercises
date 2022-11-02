@@ -16,7 +16,7 @@ func main() {
 	fmt.Println("Get your tickets here to attend")
 
 	// Declaring Variables
-	var bookings [50]string
+	bookings := []string{}
 
 	var firstName string
 	var lastName string
@@ -35,13 +35,10 @@ func main() {
 
 	// Adding info to array and counting remaining tickets
 	remainingTickets = remainingTickets - userTickets
-	bookings[0] = firstName + " " + lastName
-
-	fmt.Printf("The whole array: %v\n", bookings)
-	fmt.Printf("The first value: %v\n", bookings[0])
-	fmt.Printf("The type of array: %T\n", bookings)
-	fmt.Printf("The array length: %v\n", len(bookings))
+	bookings = append(bookings, firstName+" "+lastName)
 
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive an email confirmation at %v\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+
+	fmt.Printf("These are all our bookings: %v\n", bookings)
 }
