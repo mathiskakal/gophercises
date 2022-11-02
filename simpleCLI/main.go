@@ -36,32 +36,33 @@ func main() {
 		fmt.Scan(&userTickets)
 
 		// Check whether userTicket is greater than remaining tickets
-		if userTickets > remainingTickets {
+		if userTickets <= remainingTickets {
+			// Adding info to array and counting remaining tickets
+			remainingTickets = remainingTickets - userTickets
+			bookings = append(bookings, firstName+" "+lastName)
+
+			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive an email confirmation at %v\n", firstName, lastName, userTickets, email)
+			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+
+			// iterating in bookings list to display only first names for more privacy
+			firstNames := []string{}
+			for _, booking := range bookings {
+				var names = strings.Fields(booking)
+				firstNames = append(firstNames, names[0])
+			}
+
+			fmt.Printf("The first names of bookings are: %v\n", firstNames)
+
+			// Logic for exiting app
+			if remainingTickets == 0 {
+				fmt.Printf("Our conference is booked out. Come back next year.")
+				break
+			}
+
+		} else {
 			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
 			// will restart the loop skipping what is afer this if statement
-			continue
 		}
 
-		// Adding info to array and counting remaining tickets
-		remainingTickets = remainingTickets - userTickets
-		bookings = append(bookings, firstName+" "+lastName)
-
-		fmt.Printf("Thank you %v %v for booking %v tickets. You will receive an email confirmation at %v\n", firstName, lastName, userTickets, email)
-		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
-
-		// iterating in bookings list to display only first names for more privacy
-		firstNames := []string{}
-		for _, booking := range bookings {
-			var names = strings.Fields(booking)
-			firstNames = append(firstNames, names[0])
-		}
-
-		fmt.Printf("The first names of bookings are: %v\n", firstNames)
-
-		// Logic for exiting app
-		if remainingTickets == 0 {
-			fmt.Printf("Our conference is booked out. Come back next year.")
-			break
-		}
 	}
 }
