@@ -38,7 +38,8 @@ func main() {
 		// Check whether userTicket is greater than remaining tickets
 		if userTickets > remainingTickets {
 			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
-			break
+			// will restart the loop skipping what is afer this if statement
+			continue
 		}
 
 		// Adding info to array and counting remaining tickets
