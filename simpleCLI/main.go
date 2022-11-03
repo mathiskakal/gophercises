@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 // Defining Package level Variables
@@ -39,7 +40,7 @@ func main() {
 			// Adding info to array and counting remaining tickets
 			// remainingTickets, bookings = bookTicket(userTickets, firstName, lastName, email)
 			bookTicket(userTickets, firstName, lastName, email)
-			sendTicket(userTickets, firstName, lastName, email)
+			go sendTicket(userTickets, firstName, lastName, email)
 			// Print the first names
 			firstNames := getFirstNames()
 			fmt.Printf("The first names of bookigns are: %v\n", firstNames)
@@ -133,6 +134,7 @@ func validateUserInput(firstName string, lastName string, email string, userTick
 }
 
 func sendTicket(userTickets uint, firstName string, lastName string, email string) {
+	time.Sleep(10 * time.Second)
 	ticket := fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
 	fmt.Println("############")
 	fmt.Printf("Sending Ticket:\n %v \nto email address %v\n", ticket, email)
