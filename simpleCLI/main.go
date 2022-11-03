@@ -28,15 +28,27 @@ func main() {
 		// ask user for their first name, last name, email
 		fmt.Println("Enter your first name: ")
 		fmt.Scan(&firstName)
+
 		fmt.Println("Enter your last name: ")
 		fmt.Scan(&lastName)
+
 		fmt.Println("Enter your email address: ")
 		fmt.Scan(&email)
+
 		fmt.Println("How many tickets do you want ?")
 		fmt.Scan(&userTickets)
 
-		// Check whether userTicket is greater than remaining tickets
-		if userTickets <= remainingTickets {
+		// make sure that input name and last name contain at least two characters. Will be true if condition is met
+		isValidName := len(firstName) >= 2 && len(lastName) >= 2
+
+		// same thing for email validation, we make sure it contains @, will return true if it does
+		isValidEmail := strings.Contains(email, "@")
+
+		// validate that both user requested a positive whole number of tickets and that it doesn't exceed the amount left.
+		isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
+
+		// if all conditions met, then execute the booking
+		if isValidName && isValidEmail && isValidTicketNumber {
 			// Adding info to array and counting remaining tickets
 			remainingTickets = remainingTickets - userTickets
 			bookings = append(bookings, firstName+" "+lastName)
@@ -60,9 +72,11 @@ func main() {
 			}
 
 		} else {
-			fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
-			// will restart the loop skipping what is afer this if statement
+			/*
+				fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
+				// will restart the loop skipping what is afer this if statement
+			*/
+			fmt.Println("Your input data is invalid, please try again.")
 		}
-
 	}
 }
