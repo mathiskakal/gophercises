@@ -5,30 +5,32 @@ import (
 	"strings"
 )
 
+// Defining Package level Variables
+const conferenceTickets int = 50
+
+var conferenceName = "Go Conference"
+var remainingTickets uint = 50
+var bookings = []string{}
+
+// Main Function
 func main() {
-	//  defining constants
-	conferenceName := "Go Conference"
-	const conferenceTickets int = 50
-	var remainingTickets uint = 50
-	bookings := []string{}
 
 	// Welcome Messages
-	greetUsers(conferenceName, conferenceTickets, remainingTickets)
+	greetUsers()
 
 	// loop logic
 	for {
-		// Get user input for their first name, last name, email
+		// Get user input for their first name, last name, email and validate their input
 		firstName, lastName, email, userTickets := getUserInput()
-
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets, remainingTickets)
+		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
 
 		// if all conditions met, then execute the booking
 		if isValidName && isValidEmail && isValidTicketNumber {
 			// Adding info to array and counting remaining tickets
-			remainingTickets, bookings = bookTicket(remainingTickets, userTickets, bookings, firstName, lastName, email, conferenceName)
+			remainingTickets, bookings = bookTicket(userTickets, firstName, lastName, email)
 
 			// Print the first names
-			firstNames := getFirstNames(bookings)
+			firstNames := getFirstNames()
 			fmt.Printf("The first names of bookigns are: %v\n", firstNames)
 
 			// Logic for exiting app
@@ -38,10 +40,6 @@ func main() {
 			}
 
 		} else {
-			/*
-				fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
-				// will restart the loop skipping what is afer this if statement
-			*/
 			// Here we chain if statements to check if any conditions were met to assist the user on the validation of their input
 			if !isValidName {
 				fmt.Println("The firstname or last name is too short")
@@ -54,21 +52,9 @@ func main() {
 			}
 		}
 	}
-
-	/*
-		switch city {
-		case "New York":
-			// execute code for booking in NY
-
-		case "Singapore", "Berlin":
-			// execute code for booking in London or Berlin
-
-		default: qjkskdhkjqshd
-		}
-	*/
 }
 
-func bookTicket(remainingTickets uint, userTickets uint, bookings []string, firstName string, lastName string, email string, conferenceName string) (uint, []string) {
+func bookTicket(userTickets uint, firstName string, lastName string, email string) (uint, []string) {
 	remainingTickets = remainingTickets - userTickets
 	bookings = append(bookings, firstName+" "+lastName)
 
@@ -98,13 +84,13 @@ func getUserInput() (string, string, string, uint) {
 	return firstName, lastName, email, userTickets
 }
 
-func greetUsers(confName string, confTickets int, remngTickets uint) {
-	fmt.Printf("Welcome to %v booking application\n", confName)
-	fmt.Printf("We have a total of %v tickets and %v are still available.\n", confTickets, remngTickets)
+func greetUsers() {
+	fmt.Printf("Welcome to %v booking application\n", conferenceName)
+	fmt.Printf("We have a total of %v tickets and %v are still available.\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets here to attend")
 }
 
-func getFirstNames(bookings []string) []string {
+func getFirstNames() []string {
 	// iterating in bookings list to display only first names for more privacy
 	firstNames := []string{}
 	for _, booking := range bookings {
@@ -114,7 +100,7 @@ func getFirstNames(bookings []string) []string {
 	return firstNames
 }
 
-func validateUserInput(firstName string, lastName string, email string, userTickets uint, remainingTickets uint) (bool, bool, bool) {
+func validateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool) {
 	// make sure that input name and last name contain at least two characters. Will be true if condition is met
 	isValidName := len(firstName) >= 2 && len(lastName) >= 2
 
