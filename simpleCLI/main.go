@@ -3,10 +3,9 @@ package main
 import (
 	"fmt"
 	"strings"
+	"sync"
 	"time"
 )
-
-//  TEST
 
 // Defining Package level Variables
 const conferenceTickets int = 50
@@ -25,6 +24,9 @@ type UserData struct {
 	numberOfTickets uint
 }
 
+// part 1/4 of synchro : create a waitGroup to make the program wait for the goroutine to end to exit
+var wg = sync.WaitGroup{}
+
 // Main Function
 func main() {
 
@@ -32,26 +34,27 @@ func main() {
 	greetUsers()
 
 	// loop logic
-	for {
-		// Get user input for their first name, last name, email and validate their input
-		firstName, lastName, email, userTickets := getUserInput()
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
+	// Get user input for their first name, last name, email and validate their input
+	firstName, lastName, email, userTickets := getUserInput()
+	isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
 
-		// if all conditions met, then execute the booking
-		if isValidName && isValidEmail && isValidTicketNumber {
-			// Adding info to array and counting remaining tickets
-			// remainingTickets, bookings = bookTicket(userTickets, firstName, lastName, email)
-			bookTicket(userTickets, firstName, lastName, email)
-			go sendTicket(userTickets, firstName, lastName, email)
-			// Print the first names
-			firstNames := getFirstNames()
-			fmt.Printf("The first names of bookigns are: %v\n", firstNames)
+	// if all conditions met, then execute the booking
+	if isValidName && isValidEmail && isValidTicketNumber {
+		// Adding info to array and counting remaining tickets
+		// remainingTickets, bookings = bookTicket(userTickets, firstName, lastName, email)
+		bookTicket(userTickets, firstName, lastName, email)
 
-			// Logic for exiting app
-			if remainingTickets == 0 {
-				fmt.Printf("Our conference is booked out. Come back next year.")
-				break
-			}
+		// part 2/4 of synchro :
+		// Add that 1 goroutine to the wait group
+		wg.Add(1)
+		go sendTicket(userTickets, firstName, lastName, email)
+		// Print the first names
+		firstNames := getFirstNames()
+		fmt.Printf("The first names of bookigns are: %v\n", firstNames)
+
+		// Logic for exiting app
+		if remainingTickets == 0 {
+			fmt.Printf("Our conference is booked out. Come back next year.\n")
 
 		} else {
 			// Here we chain if statements to check if any conditions were met to assist the user on the validation of their input
@@ -66,6 +69,8 @@ func main() {
 			}
 		}
 	}
+	// part 3/4 of synchro : tell the main logic to actually wait for queued elements
+	wg.Wait()
 }
 
 func bookTicket(userTickets uint, firstName string, lastName string, email string) (uint, []UserData) {
@@ -141,5 +146,7 @@ func sendTicket(userTickets uint, firstName string, lastName string, email strin
 	fmt.Println("############")
 	fmt.Printf("Sending Ticket:\n %v \nto email address %v\n", ticket, email)
 	fmt.Println("############")
+	// part 4/4 of synchro : be able to detect when we are actually done waiting
+	wg.Done()
 
 }
