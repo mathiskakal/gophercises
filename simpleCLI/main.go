@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -14,7 +13,14 @@ var remainingTickets uint = 50
 
 // this creates a list of maps that have strings as key and value
 // the 0 is the initial size of the list
-var bookings = make([]map[string]string, 0)
+var bookings = make([]UserData, 0)
+
+type UserData struct {
+	firstName       string
+	lastName        string
+	email           string
+	numberOfTickets uint
+}
 
 // Main Function
 func main() {
@@ -58,19 +64,18 @@ func main() {
 	}
 }
 
-func bookTicket(userTickets uint, firstName string, lastName string, email string) (uint, []map[string]string) {
+func bookTicket(userTickets uint, firstName string, lastName string, email string) (uint, []UserData) {
 	remainingTickets = remainingTickets - userTickets
 
-	// create a map for user
-	var userData = make(map[string]string)
-	userData["firstName"] = firstName
-	userData["lastName"] = lastName
-	userData["email"] = email
-	// we cannot add a different data type in this string only map (kv pair) so we will convert
-	// the userTickets to a string for it to fit in the map (10 stands for decimal system)
-	userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+	var userData = UserData{
+		firstName:       firstName,
+		lastName:        lastName,
+		email:           email,
+		numberOfTickets: userTickets,
+	}
 
 	bookings = append(bookings, userData)
+	fmt.Printf("List of bookings is %v\n", bookings)
 
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive an email confirmation at %v\n", firstName, lastName, userTickets, email)
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
@@ -108,7 +113,7 @@ func getFirstNames() []string {
 	// iterating in bookings list to display only first names for more privacy
 	firstNames := []string{}
 	for _, booking := range bookings {
-		firstNames = append(firstNames, booking["firstName"])
+		firstNames = append(firstNames, booking.firstName)
 	}
 	return firstNames
 }
