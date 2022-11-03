@@ -76,7 +76,16 @@ func main() {
 				fmt.Printf("We only have %v tickets remaining, so you can't book %v tickets\n", remainingTickets, userTickets)
 				// will restart the loop skipping what is afer this if statement
 			*/
-			fmt.Println("Your input data is invalid, please try again.")
+			// Here we chain if statements to check if any conditions were met to assist the user on the validation of their input
+			if !isValidName {
+				fmt.Println("The firstname or last name is too short")
+			}
+			if !isValidEmail {
+				fmt.Println("The email address you entered doesn't contain an '@' sign")
+			}
+			if !isValidTicketNumber {
+				fmt.Println("The number of tickets you entered is invalid")
+			}
 		}
 	}
 }
