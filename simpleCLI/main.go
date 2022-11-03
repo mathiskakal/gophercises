@@ -37,8 +37,9 @@ func main() {
 		// if all conditions met, then execute the booking
 		if isValidName && isValidEmail && isValidTicketNumber {
 			// Adding info to array and counting remaining tickets
-			remainingTickets, bookings = bookTicket(userTickets, firstName, lastName, email)
-
+			// remainingTickets, bookings = bookTicket(userTickets, firstName, lastName, email)
+			bookTicket(userTickets, firstName, lastName, email)
+			sendTicket(userTickets, firstName, lastName, email)
 			// Print the first names
 			firstNames := getFirstNames()
 			fmt.Printf("The first names of bookigns are: %v\n", firstNames)
@@ -129,4 +130,12 @@ func validateUserInput(firstName string, lastName string, email string, userTick
 	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
 
 	return isValidName, isValidEmail, isValidTicketNumber
+}
+
+func sendTicket(userTickets uint, firstName string, lastName string, email string) {
+	ticket := fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
+	fmt.Println("############")
+	fmt.Printf("Sending Ticket:\n %v \nto email address %v\n", ticket, email)
+	fmt.Println("############")
+
 }
