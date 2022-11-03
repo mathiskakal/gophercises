@@ -12,10 +12,8 @@ func main() {
 	var remainingTickets uint = 50
 	bookings := []string{}
 
-	// Welcome message
-	fmt.Printf("Welcome to %v booking application\n", conferenceName)
-	fmt.Printf("We have a total of %v tickets and %v are still available.", conferenceTickets, remainingTickets)
-	fmt.Println("Get your tickets here to attend")
+	// Welcome Messages
+	greetUsers(conferenceName, conferenceTickets, remainingTickets)
 
 	// loop logic
 	for {
@@ -56,14 +54,8 @@ func main() {
 			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive an email confirmation at %v\n", firstName, lastName, userTickets, email)
 			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
-			// iterating in bookings list to display only first names for more privacy
-			firstNames := []string{}
-			for _, booking := range bookings {
-				var names = strings.Fields(booking)
-				firstNames = append(firstNames, names[0])
-			}
-
-			fmt.Printf("The first names of bookings are: %v\n", firstNames)
+			// Print the first names
+			printFirstNames(bookings)
 
 			// Logic for exiting app
 			if remainingTickets == 0 {
@@ -88,4 +80,32 @@ func main() {
 			}
 		}
 	}
+
+	/*
+		switch city {
+		case "New York":
+			// execute code for booking in NY
+
+		case "Singapore", "Berlin":
+			// execute code for booking in London or Berlin
+
+		default: qjkskdhkjqshd
+		}
+	*/
+}
+
+func greetUsers(confName string, confTickets int, remngTickets uint) {
+	fmt.Printf("Welcome to %v booking application\n", confName)
+	fmt.Printf("We have a total of %v tickets and %v are still available.\n", confTickets, remngTickets)
+	fmt.Println("Get your tickets here to attend")
+}
+
+func printFirstNames(bookings []string) {
+	// iterating in bookings list to display only first names for more privacy
+	firstNames := []string{}
+	for _, booking := range bookings {
+		var names = strings.Fields(booking)
+		firstNames = append(firstNames, names[0])
+	}
+	fmt.Printf("The first names of bookings are: %v\n", firstNames)
 }
