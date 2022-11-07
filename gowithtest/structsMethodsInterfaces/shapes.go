@@ -43,5 +43,3 @@ func (t Triangle) Area() float64 {
 /*ஐఴஐ๑ஐఴஐஐஐఴஐ๑ஐఴஐஐஐఴ
 ಄ะ Functions ~~ ะ಄
 ஐஐळஐ๑ஐळஐஐஐळஐ๑ஐळஐஐஐळ*/
-
-// Write Here
