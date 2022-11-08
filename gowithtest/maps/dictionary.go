@@ -1,7 +1,7 @@
 package main
 
 /*ஐఴஐ๑ஐఴஐஐஐఴஐ๑ஐఴஐஐஐఴ
-಄ะ types & variables ะ಄
+಄ะ Types & Variables ะ಄
 ஐஐळஐ๑ஐळஐஐஐळஐ๑ஐळஐஐஐळ*/
 
 // :===== Definitions for Errors =====:
@@ -17,7 +17,7 @@ type DictionaryErr string
 type Dictionary map[string]string
 
 /*ஐఴஐ๑ஐఴஐஐஐఴஐ๑ஐఴஐஐஐఴ
-಄ะ methods ะ಄
+಄ะ Methods ะ಄
 ஐஐळஐ๑ஐळஐஐஐळஐ๑ஐळஐஐஐळ*/
 
 // :===== Search Method =====:
@@ -64,4 +64,10 @@ func (d Dictionary) Update(word, definition string) error {
 // :===== Error Method =====:
 func (e DictionaryErr) Error() string {
 	return string(e)
+}
+
+// :===== Delete Method =====:
+func (d Dictionary) Delete(word string) {
+	// go's built in function to delete from maps (but not only)
+	delete(d, word)
 }

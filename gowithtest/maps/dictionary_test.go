@@ -3,7 +3,7 @@ package main
 import "testing"
 
 /*ஐఴஐ๑ஐఴஐஐஐఴஐ๑ஐఴஐஐஐఴ
-಄ะ test functions ะ಄
+಄ะ Test Functions ะ಄
 ஐஐळஐ๑ஐळஐஐஐळஐ๑ஐळஐஐஐळ*/
 
 // :===== Search Test =====:
@@ -73,8 +73,21 @@ func TestUpdate(t *testing.T) {
 	})
 }
 
+// :===== Delete Test =====:
+func TestDelete(t *testing.T) {
+	word := "test"
+	dictionary := Dictionary{word: "test definition"}
+
+	dictionary.Delete(word)
+
+	_, err := dictionary.Search(word)
+	if err != ErrNotFound {
+		t.Errorf("Expected %q to be deleted", word)
+	}
+}
+
 /*ஐఴஐ๑ஐఴஐஐஐఴஐ๑ஐఴஐஐஐఴ
-಄ะ helper functions ะ಄
+಄ะ Helper Functions ะ಄
 ஐஐळஐ๑ஐळஐஐஐळஐ๑ஐळஐஐஐळ*/
 
 func assertStrings(t testing.TB, got, want string) {
