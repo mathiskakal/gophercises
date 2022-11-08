@@ -6,6 +6,7 @@ import "testing"
 ಄ะ test functions ะ಄
 ஐஐळஐ๑ஐळஐஐஐळஐ๑ஐळஐஐஐळ*/
 
+// :===== Search Test =====:
 func TestSearch(t *testing.T) {
 	dictionary := Dictionary{"test": "this is just a test"}
 
@@ -23,6 +24,7 @@ func TestSearch(t *testing.T) {
 	})
 }
 
+// :===== Add Test =====:
 func TestAdd(t *testing.T) {
 	t.Run("new word", func(t *testing.T) {
 		dictionary := Dictionary{}
@@ -43,6 +45,31 @@ func TestAdd(t *testing.T) {
 
 		assertError(t, err, ErrWordExists)
 		assertDefinition(t, dictionary, word, definition)
+	})
+}
+
+// :===== Update Test =====:
+func TestUpdate(t *testing.T) {
+	t.Run("existing word", func(t *testing.T) {
+		word := "test"
+		definition := "this is just a test"
+		dictionary := Dictionary{word: definition}
+		newDefinition := "new definition"
+
+		err := dictionary.Update(word, newDefinition)
+
+		assertError(t, err, nil)
+		assertDefinition(t, dictionary, word, newDefinition)
+	})
+
+	t.Run("new word", func(t *testing.T) {
+		word := "test"
+		definition := "this is just a test"
+		dictionary := Dictionary{}
+
+		err := dictionary.Update(word, definition)
+
+		assertError(t, err, ErrWordDoesNotExist)
 	})
 }
 
